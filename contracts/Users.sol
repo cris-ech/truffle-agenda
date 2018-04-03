@@ -1,38 +1,43 @@
 pragma solidity ^0.4.15;
 
 contract Users {
-	
+	address public owner;
+    address[] public users_address;
+    uint userCount = 1;
+
+
 	struct Participant {
         uint id;
         bytes32 name;
-        bytes32 entry;
+        bytes32[] entry; // create a struct with message and date in the future
     }
     
-Participant[] public users;
-uint userCount;
+mapping(address => Participant) public users;
+
 
 function addUser(bytes32 userName, bytes32 userEntry) returns (uint userID, bool success) {
     userID = userCount++;
     
-    Participant memory newUser;
-    newUser.id = userID;
-    newUser.name = userName;
-    newUser.entry = userEntry;
     
-    users.push(newUser);
+    users.[msg.sender].id = userID;
+    users.[msg.sender].name = userName;
+    users.[msg.sender].entry[0] = userEntry;
+    users_address.push(msg.sender);
+    
     return(userID, true);
 }
 
 function getUsers() constant returns (uint[], bytes32[], bytes32[]) {
-    uint length = users.length;
+    uint length = users_address.length;
     
     uint[] memory usersID = new uint[](length);
     bytes32[] memory userNames = new bytes32[](length);
     bytes32[] memory userEntrys = new bytes32[](length);
     
-    for (uint i = 0; i < users.length; i++) {
+    for (uint i = 0; i < length; i++) {
         Participant memory showUser;
-        showUser = users[i];
+        address actual = users_address[i];
+        showUser = users[actual];
         
         usersID[i] = showUser.id;
         userNames[i] = showUser.name;
