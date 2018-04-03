@@ -9,7 +9,7 @@ contract Users {
 	struct Participant {
         uint id;
         bytes32 name;
-        bytes32[] entry; // create a struct with message and date in the future
+        bytes32 entry; // create a struct with message and date in the future
     }
     
 mapping(address => Participant) public users;
@@ -19,9 +19,9 @@ function addUser(bytes32 userName, bytes32 userEntry) returns (uint userID, bool
     userID = userCount++;
     
     
-    users.[msg.sender].id = userID;
-    users.[msg.sender].name = userName;
-    users.[msg.sender].entry[0] = userEntry;
+    users[msg.sender].id = userID;
+    users[msg.sender].name = userName;
+    users[msg.sender].entry = userEntry;
     users_address.push(msg.sender);
     
     return(userID, true);
