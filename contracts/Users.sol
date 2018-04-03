@@ -18,7 +18,7 @@ mapping(address => Participant) public users;
 function addUser(bytes32 userName, bytes32 userEntry) returns (uint userID, bool success) {
     userID = userCount++;
     
-    
+    require(checkUserExist(msg.sender) == false);
     users[msg.sender].id = userID;
     users[msg.sender].name = userName;
     users[msg.sender].entry = userEntry;
@@ -44,6 +44,17 @@ function getUsers() constant returns (uint[], bytes32[], bytes32[]) {
         userEntrys[i] = showUser.entry;
     }
     return(usersID, userNames, userEntrys);
+}
+
+function checkUserExist(address userAddress) returns (bool exist) {
+    uint length = users_address.length;
+
+    for (uint i = 0; i < length; i++){
+        if(users_address[i] == userAddress) { 
+            exist = true;
+            break;
+        }
+    }
 }
 
 
